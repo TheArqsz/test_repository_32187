@@ -8,7 +8,6 @@ fi
 
 export GIT_COMMITTER_EMAIL='travis@travis'
 export GIT_COMMITTER_NAME='Travis CI'
-export GITHUB_REPO='TheArqsz/AntiPhishMe-backend'
 export GIT_BRANCH_FROM='develop'
 export GIT_BRANCH_TO='master'
 
@@ -27,7 +26,7 @@ git checkout $TRAVIS_BRANCH
 echo "Checking out $GIT_BRANCH_TO"
 git checkout $GIT_BRANCH_TO
 
-git merge --squash $TRAVIS_BRANCH
+git merge $TRAVIS_BRANCH --squash 
 git commit -m "Automerging from $TRAVIS_BRANCH commit $TRAVIS_COMMIT"
 
 echo "Pushing to https://github.com/$TRAVIS_REPO_SLUG" >&2
