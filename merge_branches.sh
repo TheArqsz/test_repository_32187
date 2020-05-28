@@ -10,7 +10,7 @@ export GIT_COMMITTER_EMAIL='travis@travis'
 export GIT_COMMITTER_NAME='Travis CI'
 export GITHUB_REPO='TheArqsz/AntiPhishMe-backend'
 
-if [ $TRAVIS_BRANCH = "develop" ]; then
+if [ $TRAVIS_BRANCH != "develop" ]; then
     echo "Current branch doesn't match requirements to be merged"
     exit 0
 fi
