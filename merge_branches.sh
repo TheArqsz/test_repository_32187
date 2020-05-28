@@ -33,4 +33,4 @@ echo "Pushing to https://github.com/$TRAVIS_REPO_SLUG"
 
 push_uri="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG"
 
-git push $push_uri $GIT_BRANCH_TO
+git push $push_uri $GIT_BRANCH_TO >/dev/null 2>&1
