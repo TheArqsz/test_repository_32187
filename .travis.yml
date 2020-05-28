@@ -1,0 +1,15 @@
+language: python
+cache: 
+    directories:
+        - $HOME/.cache/pip
+python:
+  - "3.8"
+
+branches:
+    only:
+        - develop
+
+script: python --version
+
+after_success:
+    - sh merge_branches.sh
