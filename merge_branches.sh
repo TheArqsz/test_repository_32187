@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [ -z "${GITHUB_TOKEN}" ]
 then
@@ -10,9 +10,8 @@ export GIT_COMMITTER_EMAIL='travis@travis'
 export GIT_COMMITTER_NAME='Travis CI'
 export GITHUB_REPO='TheArqsz/AntiPhishMe-backend'
 
-if ! grep -q "$BRANCHES_TO_MERGE_REGEX" <<< "$TRAVIS_BRANCH"; then
-    printf "Current branch %s doesn't match regex %s, exiting\\n" \
-        "$TRAVIS_BRANCH" "$BRANCHES_TO_MERGE_REGEX" >&2
+if [ $TRAVIS_BRANCH = "develop" ]; then
+    echo "Current branch doesn't match requirements to be merged"
     exit 0
 fi
 
