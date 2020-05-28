@@ -22,12 +22,13 @@ git clone "https://github.com/$GITHUB_REPO" "$repo_temp"
 
 cd "$repo_temp"
 
-echo "Checking out $GIT_BRANCH_TO" >&2
+echo "Checking out $TRAVIS_BRANCH"
+git checkout $TRAVIS_BRANCH
+echo "Checking out $GIT_BRANCH_TO"
 git checkout $GIT_BRANCH_TO
 
-echo "Merging $TRAVIS_COMMIT" >&2
-git merge --squash "$TRAVIS_COMMIT"
-git commit -m "Automerging from $GIT_BRANCH_FROM commit $TRAVIS_COMMIT"
+git merge --squash $TRAVIS_COMMIT
+git commit -m "Automerging from $TRAVIS_BRANCH commit $TRAVIS_COMMIT"
 
 echo "Pushing to https://github.com/$GITHUB_REPO" >&2
 
