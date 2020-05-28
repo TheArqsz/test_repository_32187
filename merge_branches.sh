@@ -18,7 +18,7 @@ if [ $TRAVIS_BRANCH != $GIT_BRANCH_FROM ]; then
 fi
 
 repo_temp=$(mktemp -d)
-git clone "https://github.com/$GITHUB_REPO" "$repo_temp"
+git clone "https://github.com/$TRAVIS_REPO_SLUG" "$repo_temp"
 
 cd "$repo_temp"
 
@@ -30,8 +30,8 @@ git checkout $GIT_BRANCH_TO
 git merge --squash $TRAVIS_BRANCH
 git commit -m "Automerging from $TRAVIS_BRANCH commit $TRAVIS_COMMIT"
 
-echo "Pushing to https://github.com/$GITHUB_REPO" >&2
+echo "Pushing to https://github.com/$TRAVIS_REPO_SLUG" >&2
 
-push_uri="https://$GITHUB_SECRET_TOKEN@github.com/$GITHUB_REPO"
+push_uri="https://$GITHUB_SECRET_TOKEN@github.com/$TRAVIS_REPO_SLUG"
 
 git push $push_uri $GIT_BRANCH_TO >/dev/null 2>&1
