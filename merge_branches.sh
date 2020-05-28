@@ -31,6 +31,6 @@ git commit -m "Automerging from $TRAVIS_BRANCH commit $TRAVIS_COMMIT"
 
 echo "Pushing to https://github.com/$TRAVIS_REPO_SLUG"
 
-push_uri="https://$GITHUB_SECRET_TOKEN@github.com/$TRAVIS_REPO_SLUG"
+push_uri="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG"
 
 git push $push_uri $GIT_BRANCH_TO
