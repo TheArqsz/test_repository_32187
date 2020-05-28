@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 if [ -z "${GITHUB_TOKEN}" ]
 then
@@ -8,28 +8,29 @@ fi
 
 export GIT_COMMITTER_EMAIL='travis@travis'
 export GIT_COMMITTER_NAME='Travis CI'
-export GITHUB_REPO='TheArqsz/AntiPhishMe-backend'
+export GIT_BRANCH_FROM='develop'
+export GIT_BRANCH_TO='master'
 
-if ! grep -q "$BRANCHES_TO_MERGE_REGEX" <<< "$TRAVIS_BRANCH"; then
-    printf "Current branch %s doesn't match regex %s, exiting\\n" \
-        "$TRAVIS_BRANCH" "$BRANCHES_TO_MERGE_REGEX" >&2
+if [ $TRAVIS_BRANCH != $GIT_BRANCH_FROM ]; then
+    echo "Current branch doesn't match requirements to be merged"
     exit 0
 fi
 
 repo_temp=$(mktemp -d)
-git clone "https://github.com/TheArqsz/AntiPhishMe-backend" "$repo_temp"
+git clone "https://github.com/$TRAVIS_REPO_SLUG" "$repo_temp"
 
 cd "$repo_temp"
 
-printf 'Checking out %s\n' "master" >&2
-git checkout "master"
+echo "Checking out $TRAVIS_BRANCH"
+git checkout $TRAVIS_BRANCH
+echo "Checking out $GIT_BRANCH_TO"
+git checkout $GIT_BRANCH_TO
 
-printf 'Merging %s\n' "$TRAVIS_COMMIT" >&2
-git merge --ff-only "$TRAVIS_COMMIT"
+git merge $TRAVIS_BRANCH --squash 
+git commit -m "Automerging from $TRAVIS_BRANCH commit $TRAVIS_COMMIT"
 
-printf 'Pushing to %s\n' "https://github.com/$GITHUB_REPO" >&2
+echo "Pushing to https://github.com/$TRAVIS_REPO_SLUG"
 
-push_uri="https://$GITHUB_SECRET_TOKEN@github.com/$GITHUB_REPO"
+push_uri="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG"
 
-git push "$push_uri" "master" >/dev/null 2>&1
-git push "$push_uri" :"$TRAVIS_BRANCH" >/dev/null 2>&1
+git push $push_uri $GIT_BRANCH_TO
